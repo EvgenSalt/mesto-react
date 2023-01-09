@@ -1,0 +1,14 @@
+.page {
+  font-family: "Inter", sans-serif;
+  text-rendering: optimizeLegibility;
+  margin: 0 auto;
+  max-width: 1280px;
+  padding-top: 45px;
+  background-color: #000;
+}
+
+@media (max-width: 940px) {
+  .page {
+    padding: 28px 0;
+  }
+}

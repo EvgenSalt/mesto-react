@@ -1,9 +1,9 @@
 import logo from './logo.svg';
-import './App.css';
+// import './index.css';
 
 function App() {
   return (
-    <div className="App">
+    <div className="page">
       <header className="header">
         <img src="'./images/logo.svg'" alt="логотип Место" className="logo" />
       </header>
@@ -12,8 +12,8 @@ function App() {
         <div className="profile__info">
           <img src="#" alt="Аватарка" className="profile__avatar" />
           <div className="profile__avatar-edit"></div>
-          <h1 className="profile__name"></h1>
-          <p className="profile__description"></p>
+          <h1 className="profile__name">Жак-Ив Кусто</h1>
+          <p className="profile__description">Исследователь океана</p>
           <button aria-label="edit" className="profile__edit" value="clicked" type="button"></button>
         </div>
         <button aria-label="add" className="profile__add" value="clicked" type="button"></button>
