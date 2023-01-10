@@ -10,7 +10,6 @@ function PopupWithForm({ isOpen, name, title, children, onClose }) {
             {title}
           </h3>
           {children}
-
         </form>
       </div>
     </div >
