@@ -1,33 +1,35 @@
-import logo from './logo.svg';
-// import './index.css';
+import React, { useState, useEffect } from 'react';
 
-function App() {
+function Main() {
+
+  function handleEditAvatarClick() {
+    document.querySelector('.popup_edit-avatar').classList.add('popup_show');
+  };
+
+  function handleEditProfileClick() {
+    document.querySelector('.popup_edit').classList.add('popup_show');
+  };
+
+  function handleAddPlaceClick() {
+    document.querySelector('.popup_add').classList.add('popup_show');
+  };
+
   return (
-    <div className="page">
-      <header className="header">
-        <img src="'./images/logo.svg'" alt="логотип Место" className="logo" />
-      </header>
-
+    <>
       <section className="profile">
         <div className="profile__info">
           <img src="#" alt="Аватарка" className="profile__avatar" />
-          <div className="profile__avatar-edit"></div>
+          <div className="profile__avatar-edit" onClick={handleEditAvatarClick}></div>
           <h1 className="profile__name">Жак-Ив Кусто</h1>
           <p className="profile__description">Исследователь океана</p>
-          <button aria-label="edit" className="profile__edit" value="clicked" type="button"></button>
+          <button aria-label="edit" className="profile__edit" value="clicked" type="button" onClick={handleEditProfileClick}></button>
         </div>
-        <button aria-label="add" className="profile__add" value="clicked" type="button"></button>
+        <button aria-label="add" className="profile__add" value="clicked" type="button" onClick={handleAddPlaceClick}></button>
       </section>
 
       <section className="elements">
         <ul className="elements__items"></ul>
       </section>
-
-      <footer className="footer">
-        <p className="footer__text">
-          © 2022 Mesto Russia
-        </p>
-      </footer>
 
       <div className="popup popup_edit">
         <div className="popup__container">
@@ -120,9 +122,8 @@ function App() {
           </div>
         </li>
       </template>
-
-    </div>
+    </>
   );
 }
 
-export default App;
+export default Main;
