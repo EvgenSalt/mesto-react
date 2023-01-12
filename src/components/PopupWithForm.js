@@ -5,7 +5,7 @@ function PopupWithForm({ isOpen, name, title, children, onClose }) {
     <div className={`popup popup_type_${name} ${title} ${isOpen && 'popup_show'}`} >
       <div className="popup__container">
         <button aria-label="close" className={`popup__close popup__close_${name}`} type="button" onClick={onClose}></button>
-        <form action="signin" method="post" name="card-form" className={`form form_${name}`} novalidate>
+        <form name="card-form" className={`form form_${name}`} noValidate>
           <h3 className="form__title">
             {title}
           </h3>

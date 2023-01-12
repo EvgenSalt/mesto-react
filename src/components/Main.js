@@ -8,7 +8,9 @@ function Main({
   userName,
   userDescription,
   userAvatar,
-  cards }) {
+  cards,
+  onCardClick }) {
+
   return (
     <>
       <section className="profile">
@@ -28,6 +30,8 @@ function Main({
             cards.map(card => (
               <Card
                 card={card}
+                key={card._id}
+                onCardClick={onCardClick}
               />
             ))
           }

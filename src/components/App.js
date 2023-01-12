@@ -21,6 +21,8 @@ function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
 
+  const [selectedCard, setSelectedCard] = useState(null);
+
   useEffect(() => {
     Promise.all([api.getUserProfile(), api.getInitialCards()])
       .then(([info, initialCards]) => {
@@ -28,23 +30,21 @@ function App() {
         setUserDescription(info.about);
         setUserAvatar(info.avatar);
         setCard(initialCards);
-        console.log(`cards = ${cards}`);
-        // console.log(`userName = ${info.name} | userDescription = ${info.about} | userAvatar = ${info.avatar}`);
       })
       .catch((err) => {
         console.log(err)
       })
   }, []);
 
-  function onEditAvatar() {
+  function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
   };
 
-  function onEditProfile() {
+  function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
   };
 
-  function onAddPlace() {
+  function handleAddPlaceClick() {
     setAddPlacePopupOpen(true);
   };
 
@@ -52,31 +52,40 @@ function App() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
+    setSelectedCard(null);
+  }
+
+  function handleCardClick(props) {
+    setSelectedCard(props);
   }
 
   return (
     <div className="page">
       <Header />
       <Main
-        onEditProfile={onEditProfile}
-        onAddPlace={onAddPlace}
-        onEditAvatar={onEditAvatar}
+        onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick}
+        onEditAvatar={handleEditAvatarClick}
         userName={userName}
         userDescription={userDescription}
         userAvatar={userAvatar}
         cards={cards}
+        onCardClick={handleCardClick}
       />
       <Footer />
-      <ImagePopup />
+      <ImagePopup
+        card={selectedCard}
+        onClose={closeAllPopups}
+      />
       <PopupWithForm
         isOpen={isEditAvatarPopupOpen}
         name={'avatar-edit'}
         title={'Обновить аватар'}
         children={
           <>
-            <input type="url" name="link_img" placeholder="Ссылка на картинку" class="form__input form__input_text_src-img" value="" required id="link-avatar" />
-            <span class="form__msg" id="link-avatar-error">error</span>
-            <button aria-label="submit" class="form__btn" type="submit">Сохранить</button>
+            <input type="url" name="link_img" placeholder="Ссылка на картинку" className="form__input form__input_text_src-img" defaultValue="" required id="link-avatar" />
+            <span className="form__msg" id="link-avatar-error">error</span>
+            <button aria-label="submit" className="form__btn" type="submit">Сохранить</button>
           </>}
         onClose={closeAllPopups}
       />
@@ -86,13 +95,13 @@ function App() {
         title={'Редактировать профиль'}
         children={
           <>
-            <input type="text" name="username" placeholder="name" class="form__input form__input_text_name" value=""
-              required minlength="2" maxlength="40" id="username" />
-            <span class="form__msg" id="username-error">error</span>
-            <input type="text" name="userwork" placeholder="work" class="form__input form__input_text_work" value=""
-              required minlength="2" maxlength="200" id="userwork" />
-            <span class="form__msg" id="userwork-error">error</span>
-            <button aria-label="submit" class="form__btn" type="submit">Сохранить</button>
+            <input type="text" name="username" placeholder="name" className="form__input form__input_text_name" defaultValue=""
+              required minLength="2" maxLength="40" id="username" />
+            <span className="form__msg" id="username-error">error</span>
+            <input type="text" name="userwork" placeholder="work" className="form__input form__input_text_work" defaultValue=""
+              required minLength="2" maxLength="200" id="userwork" />
+            <span className="form__msg" id="userwork-error">error</span>
+            <button aria-label="submit" className="form__btn" type="submit">Сохранить</button>
           </>}
         onClose={closeAllPopups}
       />
@@ -102,13 +111,13 @@ function App() {
         title={'Новое место'}
         children={
           <>
-            <input type="text" name="name_img" placeholder="Название" class="form__input form__input_text_name-img" value=""
-              required minlength="2" maxlength="30" id="name-img" />
-            <span class="form__msg" id="name-img-error">error</span>
-            <input type="url" name="link_img" placeholder="Ссылка на картинку" class="form__input form__input_text_src-img"
-              value="" required id="link-img" />
-            <span class="form__msg" id="link-img-error">error</span>
-            <button aria-label="submit" class="form__btn" type="submit">Создать</button>
+            <input type="text" name="name_img" placeholder="Название" className="form__input form__input_text_name-img" defaultValue=""
+              required minLength="2" maxLength="30" id="name-img" />
+            <span className="form__msg" id="name-img-error">error</span>
+            <input type="url" name="link_img" placeholder="Ссылка на картинку" className="form__input form__input_text_src-img"
+              defaultValue="" required id="link-img" />
+            <span className="form__msg" id="link-img-error">error</span>
+            <button aria-label="submit" className="form__btn" type="submit">Создать</button>
           </>}
         onClose={closeAllPopups}
       />
@@ -118,7 +127,7 @@ function App() {
         title={'Вы уверены?'}
         children={
           <>
-            <button aria-label="submit" class="form__btn" type="submit">Да</button>
+            <button aria-label="submit" className="form__btn" type="submit">Да</button>
           </>}
         onClose={closeAllPopups}
       />
