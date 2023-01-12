@@ -15,7 +15,7 @@ function Main({
     <>
       <section className="profile">
         <div className="profile__info">
-          <img src="#" alt="Аватарка" className="profile__avatar" style={{ backgroundImage: `url(${userAvatar})` }} />
+          <img src={userAvatar} alt="Аватарка" className="profile__avatar" />
           <div className="profile__avatar-edit" onClick={onEditAvatar}></div>
           <h1 className="profile__name">{userName}</h1>
           <p className="profile__description">{userDescription}</p>

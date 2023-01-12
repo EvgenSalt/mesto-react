@@ -85,8 +85,8 @@ function App() {
           <>
             <input type="url" name="link_img" placeholder="Ссылка на картинку" className="form__input form__input_text_src-img" defaultValue="" required id="link-avatar" />
             <span className="form__msg" id="link-avatar-error">error</span>
-            <button aria-label="submit" className="form__btn" type="submit">Сохранить</button>
           </>}
+        btnText={'Сохранить'}
         onClose={closeAllPopups}
       />
       <PopupWithForm
@@ -101,8 +101,8 @@ function App() {
             <input type="text" name="userwork" placeholder="work" className="form__input form__input_text_work" defaultValue=""
               required minLength="2" maxLength="200" id="userwork" />
             <span className="form__msg" id="userwork-error">error</span>
-            <button aria-label="submit" className="form__btn" type="submit">Сохранить</button>
           </>}
+        btnText={'Сохранить'}
         onClose={closeAllPopups}
       />
       <PopupWithForm
@@ -117,18 +117,15 @@ function App() {
             <input type="url" name="link_img" placeholder="Ссылка на картинку" className="form__input form__input_text_src-img"
               defaultValue="" required id="link-img" />
             <span className="form__msg" id="link-img-error">error</span>
-            <button aria-label="submit" className="form__btn" type="submit">Создать</button>
           </>}
+        btnText={'Создать'}
         onClose={closeAllPopups}
       />
       <PopupWithForm
         isOpen={false}//TO DO
         name={'delet-img'}
         title={'Вы уверены?'}
-        children={
-          <>
-            <button aria-label="submit" className="form__btn" type="submit">Да</button>
-          </>}
+        btnText={'Да'}
         onClose={closeAllPopups}
       />
     </div>

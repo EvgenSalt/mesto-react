@@ -6,7 +6,6 @@ function Card({ card, onCardClick }) {
     onCardClick(card)
   }
   return (
-
     <li className="elements__item" onClick={handleCardClick}>
       <button aria-label="like" className="elements__trash" value="clicked" type="button"></button>
       <img src={card.link} alt="упс... фото нет" className="elements__img" />
