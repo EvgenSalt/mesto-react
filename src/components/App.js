@@ -11,9 +11,30 @@ import { api } from '../utils/api';
 
 function App() {
 
+
+  const [userName, setUserName] = useState("");
+  const [userDescription, setUserDescription] = useState("");
+  const [userAvatar, setUserAvatar] = useState("");
+  const [cards, setCard] = useState([]);
+
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
+
+  useEffect(() => {
+    Promise.all([api.getUserProfile(), api.getInitialCards()])
+      .then(([info, initialCards]) => {
+        setUserName(info.name);
+        setUserDescription(info.about);
+        setUserAvatar(info.avatar);
+        setCard(initialCards);
+        console.log(`cards = ${cards}`);
+        // console.log(`userName = ${info.name} | userDescription = ${info.about} | userAvatar = ${info.avatar}`);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, []);
 
   function onEditAvatar() {
     setEditAvatarPopupOpen(true);
@@ -36,7 +57,15 @@ function App() {
   return (
     <div className="page">
       <Header />
-      <Main onEditProfile={onEditProfile} onAddPlace={onAddPlace} onEditAvatar={onEditAvatar} />
+      <Main
+        onEditProfile={onEditProfile}
+        onAddPlace={onAddPlace}
+        onEditAvatar={onEditAvatar}
+        userName={userName}
+        userDescription={userDescription}
+        userAvatar={userAvatar}
+        cards={cards}
+      />
       <Footer />
       <ImagePopup />
       <PopupWithForm
