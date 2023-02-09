@@ -86,7 +86,6 @@ function App() {
   function handleUpdateUser(user) {
     api.editProfile(user)
       .then(res => {
-        // console.log(res);
         setCurrentUser(res);
         closeAllPopups();
       })
