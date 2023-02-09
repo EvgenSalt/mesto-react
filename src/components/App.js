@@ -11,6 +11,17 @@ import { api } from '../utils/api';
 
 function App() {
 
+  const [currentUser, setCurrentUser] = useState({});
+
+  useEffect(() => {
+    api.getUserProfile()
+      .then(res => {
+        setCurrentUser(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
 
   const [userName, setUserName] = useState("");
   const [userDescription, setUserDescription] = useState("");
