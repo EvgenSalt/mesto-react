@@ -11,7 +11,8 @@ function Main({
   // userDescription,
   // userAvatar,
   cards,
-  onCardClick }) {
+  onCardClick,
+  onCardLike }) {
 
   const currentUser = useContext(CurrentUserContext);
 
@@ -36,6 +37,7 @@ function Main({
                 card={card}
                 key={card._id}
                 onCardClick={onCardClick}
+                onCardLike={onCardLike}
               />
             ))
           }

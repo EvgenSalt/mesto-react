@@ -69,7 +69,7 @@ class Api {
   }
 
   addLike(card_id) {
-    return fetch(`${this._baseUrl}/cards/${card_id}/likes`, {
+    return fetch(`${this._baseUrl}/cards/likes/${card_id}`, {
       method: "PUT",
       headers: this._headers
     })
@@ -83,7 +83,16 @@ class Api {
     })
       .then((res) => this._getResponseData(res))
   }
+
+  changeLikeCardStatus(card_id, isLiked) {
+    return fetch(`${this._baseUrl}/cards/${card_id}/likes`, {
+      method: isLiked ? "PUT" : "DELETE",
+      headers: this._headers
+    })
+      .then((res) => this._getResponseData(res))
+  }
 }
+
 export const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-54',
   headers: {

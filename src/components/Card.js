@@ -2,7 +2,7 @@ import React from "react";
 import { useContext } from 'react';
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-function Card({ card, onCardClick }) {
+function Card({ card, onCardClick, onCardLike }) {
 
   const currentUser = useContext(CurrentUserContext);
   const isOwn = card.owner._id === currentUser._id;
@@ -16,14 +16,18 @@ function Card({ card, onCardClick }) {
     onCardClick(card)
   }
 
+  function handleCardLike() {
+    onCardLike(card)
+  }
+
   return (
-    <li className="elements__item" onClick={handleCardClick}>
-      <button aria-label="like" className={`${!isOwn && 'elements__trash'}`} value="clicked" type="button" ></button>
-      <img src={card.link} alt="упс... фото нет" className="elements__img" />
+    <li className="elements__item" >
+      <button aria-label="like" className={`${isOwn ? 'elements__trash_active' : 'elements__trash'}`} value="clicked" type="button" ></button>
+      <img src={card.link} alt="упс... фото нет" className="elements__img" onClick={handleCardClick} />
       <div className="elements__footer">
         <h2 className="elements__text">{card.name}</h2>
         <div className="elements__likes">
-          <button aria-label="like" className={cardLikeButtonClassName} value="clicked" type="button"></button>
+          <button aria-label="like" className={cardLikeButtonClassName} type="button" onClick={handleCardLike}></button>
           <span className="elements__like_count">{card.likes.length}</span>
         </div>
       </div>
