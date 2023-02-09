@@ -6,7 +6,7 @@ function ImagePopup({ card, onClose }) {
       <div className="popup__container">
         <button aria-label="close" className="popup__close popup__close_show-img" type="button" onClick={onClose}></button>
         <div className="popup__card">
-          <img src={card ? card.link : "#"} alt={card ? card.name : "Упс..."} className="popup__img" />
+          <img src={card?.link} alt={card?.name} className="popup__img" />
           <h3 className="popup__text">
             {card ? card.name : "Упс..."}
           </h3>

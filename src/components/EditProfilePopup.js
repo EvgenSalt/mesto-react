@@ -17,9 +17,9 @@ function EditProfilePopup({
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
-  const [name, setName] = useState('');
+  const [nameUser, setName] = useState('');
   const [description, setDescription] = useState('');
 
   function handleName(event) {
@@ -33,7 +33,7 @@ function EditProfilePopup({
   function handleSubmit(event) {
     event.preventDefault();
     onUpdateUser({
-      name: name,
+      name: nameUser,
       about: description
     });
   }
@@ -45,10 +45,10 @@ function EditProfilePopup({
       title={'Редактировать профиль'}
       children={
         <>
-          <input type="text" name="username" placeholder="name" className="form__input form__input_text_name" defaultValue={name}
+          <input type="text" name="username" placeholder="name" className="form__input form__input_text_name" value={`${nameUser}`}
             required minLength="2" maxLength="40" id="username" onChange={handleName} />
           <span className="form__msg" id="username-error">error</span>
-          <input type="text" name="userwork" placeholder="work" className="form__input form__input_text_work" defaultValue={description}
+          <input type="text" name="userwork" placeholder="work" className="form__input form__input_text_work" value={`${description}`}
             required minLength="2" maxLength="200" id="userwork" onChange={handleDescription} />
           <span className="form__msg" id="userwork-error">error</span>
         </>}
