@@ -42,7 +42,7 @@ class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: data.link_img
+        avatar: data.avatar
       })
     })
       .then((res) => this._getResponseData(res))

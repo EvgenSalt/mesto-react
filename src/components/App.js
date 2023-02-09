@@ -10,6 +10,7 @@ import ImagePopup from './ImagePopup';
 import { api } from '../utils/api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
 
@@ -99,6 +100,15 @@ function App() {
       .catch(err => console.log(err))
   }
 
+  function handleUpdateAvatar(avatar) {
+    api.editAvatarProfile(avatar)
+      .then(res => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch(err => console.log(err))
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -123,19 +133,12 @@ function App() {
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          onUpdateUser={handleUpdateUser}
+          onUpdateAvatar={handleUpdateUser}
         />
-        <PopupWithForm
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
-          name={'avatar-edit'}
-          title={'Обновить аватар'}
-          children={
-            <>
-              <input type="url" name="link_img" placeholder="Ссылка на картинку" className="form__input form__input_text_src-img" defaultValue="" required id="link-avatar" />
-              <span className="form__msg" id="link-avatar-error">error</span>
-            </>}
-          btnText={'Сохранить'}
           onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
         />
         <PopupWithForm
           isOpen={isAddPlacePopupOpen}
