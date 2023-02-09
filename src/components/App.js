@@ -79,6 +79,15 @@ function App() {
       setCard((state) => state.map((c) => c._id === card._id ? newCard : c));
     });
   }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id)
+      .then(() => {
+        setCard(cards.filter(item => item._id !== card._id));
+      })
+      .catch(err => console.log(err));
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -93,6 +102,7 @@ function App() {
           cards={cards}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
         <Footer />
         <ImagePopup

@@ -12,7 +12,8 @@ function Main({
   // userAvatar,
   cards,
   onCardClick,
-  onCardLike }) {
+  onCardLike,
+  onCardDelete }) {
 
   const currentUser = useContext(CurrentUserContext);
 
@@ -38,6 +39,7 @@ function Main({
                 key={card._id}
                 onCardClick={onCardClick}
                 onCardLike={onCardLike}
+                onCardDelete={onCardDelete}
               />
             ))
           }
