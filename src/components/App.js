@@ -9,6 +9,7 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import { api } from '../utils/api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
 
@@ -88,6 +89,16 @@ function App() {
       .catch(err => console.log(err));
   }
 
+  function handleUpdateUser(user) {
+    api.editProfile(user)
+      .then(res => {
+        // console.log(res);
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch(err => console.log(err))
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -109,6 +120,11 @@ function App() {
           card={selectedCard}
           onClose={closeAllPopups}
         />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
         <PopupWithForm
           isOpen={isEditAvatarPopupOpen}
           name={'avatar-edit'}
@@ -117,22 +133,6 @@ function App() {
             <>
               <input type="url" name="link_img" placeholder="Ссылка на картинку" className="form__input form__input_text_src-img" defaultValue="" required id="link-avatar" />
               <span className="form__msg" id="link-avatar-error">error</span>
-            </>}
-          btnText={'Сохранить'}
-          onClose={closeAllPopups}
-        />
-        <PopupWithForm
-          isOpen={isEditProfilePopupOpen}
-          name={'edit'}
-          title={'Редактировать профиль'}
-          children={
-            <>
-              <input type="text" name="username" placeholder="name" className="form__input form__input_text_name" defaultValue=""
-                required minLength="2" maxLength="40" id="username" />
-              <span className="form__msg" id="username-error">error</span>
-              <input type="text" name="userwork" placeholder="work" className="form__input form__input_text_work" defaultValue=""
-                required minLength="2" maxLength="200" id="userwork" />
-              <span className="form__msg" id="userwork-error">error</span>
             </>}
           btnText={'Сохранить'}
           onClose={closeAllPopups}
