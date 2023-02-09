@@ -53,8 +53,8 @@ class Api {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        name: data.name_img,
-        link: data.link_img
+        name: data.name,
+        link: data.link
       })
     })
       .then((res) => this._getResponseData(res))

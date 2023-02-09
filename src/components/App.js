@@ -11,6 +11,7 @@ import { api } from '../utils/api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
 
@@ -109,6 +110,15 @@ function App() {
       .catch(err => console.log(err))
   }
 
+  function handleAddPlaceSubmit(card) {
+    api.addNewCard(card)
+      .then(res => {
+        setCard([res, ...cards]);
+        closeAllPopups();
+      })
+      .catch(err => console.log(err))
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -133,28 +143,17 @@ function App() {
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          onUpdateAvatar={handleUpdateUser}
+          onUpdateUser={handleUpdateUser}
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
-        <PopupWithForm
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
-          name={'add'}
-          title={'Новое место'}
-          children={
-            <>
-              <input type="text" name="name_img" placeholder="Название" className="form__input form__input_text_name-img" defaultValue=""
-                required minLength="2" maxLength="30" id="name-img" />
-              <span className="form__msg" id="name-img-error">error</span>
-              <input type="url" name="link_img" placeholder="Ссылка на картинку" className="form__input form__input_text_src-img"
-                defaultValue="" required id="link-img" />
-              <span className="form__msg" id="link-img-error">error</span>
-            </>}
-          btnText={'Создать'}
           onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
         />
         <PopupWithForm
           isOpen={false}//TO DO
