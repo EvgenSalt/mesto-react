@@ -18,7 +18,7 @@ function Card({
     `elements__like ${isLiked && 'elements__like_active'}`
   );;
 
-  function handleCardClick() {
+  function handleClick() {
     onCardClick(card);
   }
 
@@ -33,7 +33,7 @@ function Card({
   return (
     <li className="elements__item" >
       <button aria-label="like" className={`${isOwn ? 'elements__trash_active' : 'elements__trash'}`} value="clicked" type="button" onClick={handleDeleteClick}></button>
-      <img src={card.link} alt="упс... фото нет" className="elements__img" onClick={handleCardClick} />
+      <img src={card.link} alt="упс... фото нет" className="elements__img" onClick={handleClick} />
       <div className="elements__footer">
         <h2 className="elements__text">{card.name}</h2>
         <div className="elements__likes">

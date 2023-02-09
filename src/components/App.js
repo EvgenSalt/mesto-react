@@ -27,9 +27,6 @@ function App() {
       })
   }, [])
 
-  // const [userName, setUserName] = useState("");
-  // const [userDescription, setUserDescription] = useState("");
-  // const [userAvatar, setUserAvatar] = useState("");
   const [cards, setCard] = useState([]);
 
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
@@ -39,13 +36,8 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
 
   useEffect(() => {
-    // Promise.all([api.getUserProfile(), api.getInitialCards()])
-    // .then(([info, initialCards]) => {
     Promise.all([api.getInitialCards()])
       .then(([initialCards]) => {
-        // setUserName(info.name);
-        // setUserDescription(info.about);
-        // setUserAvatar(info.avatar);
         setCard(initialCards);
       })
       .catch((err) => {
@@ -127,9 +119,6 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
-          // userName={userName}
-          // userDescription={userDescription}
-          // userAvatar={userAvatar}
           cards={cards}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
