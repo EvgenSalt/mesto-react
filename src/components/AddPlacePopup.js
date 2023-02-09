@@ -1,6 +1,6 @@
 import React from "react";
-import { useState } from "react";
 import { useEffect } from "react";
+import { useRef } from "react";
 
 import PopupWithForm from "./PopupWithForm";
 
@@ -9,31 +9,23 @@ function AddPlacePopup({
   onClose,
   onAddPlace
 }) {
-
-  const [imgName, setImgName] = useState('');
-  const [imgLink, setImgLink] = useState('');
-
-  function handleImgName(event) {
-    setImgName(event.target.value)
-  }
-
-  function handleImgLink(event) {
-    setImgLink(event.target.value)
-  }
+  const imgName = useRef('');
+  const imgLink = useRef('');
 
   useEffect(() => {
-    setImgName('')
-    setImgLink('')
+    imgName.current.value = '';
   }, [isOpen])
 
+  useEffect(() => {
+    imgLink.current.value = '';
+  }, [isOpen])
   function handleSubmit(event) {
     event.preventDefault();
     onAddPlace({
-      name: imgName,
-      link: imgLink
+      name: imgName.current.value,
+      link: imgLink.current.value
     })
   }
-
   return (
     <PopupWithForm
       isOpen={isOpen}
@@ -41,11 +33,11 @@ function AddPlacePopup({
       title={'Новое место'}
       children={
         <>
-          <input type="text" name="name_img" placeholder="Название" className="form__input form__input_text_name-img" defaultValue=""
-            required minLength="2" maxLength="30" id="name-img" onChange={handleImgName} />
+          <input type="text" name="name_img" placeholder="Название" className="form__input form__input_text_name-img" defaultValue=''
+            required minLength="2" maxLength="30" id="name-img" ref={imgName} />
           <span className="form__msg" id="name-img-error">error</span>
           <input type="url" name="link_img" placeholder="Ссылка на картинку" className="form__input form__input_text_src-img"
-            defaultValue="" required id="link-img" onChange={handleImgLink} />
+            defaultValue='' required id="link-img" ref={imgLink} />
           <span className="form__msg" id="link-img-error">error</span>
         </>}
       btnText={'Создать'}
