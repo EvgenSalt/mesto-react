@@ -2,6 +2,11 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
+import { Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
@@ -14,12 +19,13 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import Login from "./Login";
 import Register from "./Register";
-import { Route, Switch, Redirect } from 'react-router-dom';
+import InfoTooltip from "./InfoTooltip";
+
 import ProtectedRoute from './ProtectedRoute';
 import { auth } from "../utils/auth";
 
 function App() {
-
+  const history = useHistory();
   const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
@@ -37,10 +43,14 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
+  const [isInfoTooltipFail, setIsInInfoTooltipFail] = useState(false);
+  const [isInfoTooltipSuccess, setIsInfoTooltipSuccess] = useState(false);
 
   const [selectedCard, setSelectedCard] = useState(null);
 
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [emailProfile, setEmailProfile] = useState('')
+
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
@@ -48,8 +58,9 @@ function App() {
       auth.validityTokenProfile(jwt)
         .then(data => {
           if (data) {
-            console.log(jwt)
             setLoggedIn(true)
+            setEmailProfile(data.data.email)
+            history.push('/');
           }
         })
         .catch((err) => {
@@ -85,10 +96,50 @@ function App() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setSelectedCard(null);
+    setIsInInfoTooltipFail(false);
   }
 
   function handleCardClick(props) {
     setSelectedCard(props);
+  }
+
+  function handleLogin(dataProfile) {
+    auth.authorizationProfile(dataProfile)
+      .then(data => {
+        if (data.token) {
+          setLoggedIn(true);
+          setEmailProfile(dataProfile.email)
+          history.push('/');
+          localStorage.setItem('jwt', data.token);
+        }
+      })
+      .catch(err => {
+        setIsInInfoTooltipFail(true);
+        setIsInfoTooltipSuccess(false);
+        console.log(err)
+      })
+  }
+
+  function handleRegistration(dataProfile) {
+    auth.registrationProfile(dataProfile)
+      .then(data => {
+        if (data) {
+          setIsInfoTooltipSuccess(true);
+          history.push('/signin');
+        }
+      })
+      .catch(err => {
+        setIsInfoTooltipSuccess(false);
+        console.log(err)
+      })
+      .finally(() => setIsInInfoTooltipFail(true));
+  }
+
+  function handleOutProfile() {
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
+    setEmailProfile('')
+    history.push('/sign-in');
   }
 
   function handleCardLike(card) {
@@ -136,11 +187,12 @@ function App() {
   }
 
   return (
-
     <CurrentUserContext.Provider value={currentUser}>
-
       <div className="page">
-        <Header />
+        <Header
+          outProfile={handleOutProfile}
+          emailProfile={emailProfile}
+        />
         <Switch>
           <ProtectedRoute path="/" exact
             loggedIn={loggedIn}
@@ -153,10 +205,10 @@ function App() {
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete} />
           <Route path="/signup">
-            <Register />
+            <Register registrationProfile={handleRegistration} />
           </Route>
           <Route path="/signin">
-            <Login />
+            <Login loginProfile={handleLogin} />
           </Route>
           <Route>
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
@@ -189,8 +241,12 @@ function App() {
           btnText={'Да'}
           onClose={closeAllPopups}
         />
+        <InfoTooltip
+          isOpen={isInfoTooltipFail}
+          isSuccess={isInfoTooltipSuccess}
+          onClose={closeAllPopups}
+        />
       </div>
-
     </CurrentUserContext.Provider >
   );
 }

@@ -11,7 +11,7 @@ class Auth {
   }
 
   registrationProfile(data) {
-    return (`${this._baseUrl}/signup`, {
+    return fetch(`${this._baseUrl}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -25,7 +25,7 @@ class Auth {
   }
 
   authorizationProfile(data) {
-    return (`${this._baseUrl}/signin`, {
+    return fetch(`${this._baseUrl}/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ class Auth {
   }
 
   validityTokenProfile(jwt) {
-    return (`${this._baseUrl}/users/me`, {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
