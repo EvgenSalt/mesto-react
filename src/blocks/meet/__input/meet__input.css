@@ -10,6 +10,7 @@
   border-bottom: 2px solid #CCCCCC;
   padding: 0 0 9px;
   width: 100%;
+  outline: none;
 }
 
 .meet__input:nth-child(3n) {

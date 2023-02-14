@@ -14,6 +14,8 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import Login from "./Login";
 import Register from "./Register";
+import { Route, Switch, Redirect } from 'react-router-dom';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
 
@@ -36,6 +38,8 @@ function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
 
   const [selectedCard, setSelectedCard] = useState(null);
+
+  const [loggedIn, setLoggedIn] = useState(true);
 
   useEffect(() => {
     Promise.all([api.getInitialCards()])
@@ -115,20 +119,32 @@ function App() {
   }
 
   return (
+
     <CurrentUserContext.Provider value={currentUser}>
+
       <div className="page">
         <Header />
-        {/* <Register /> */}
-        <Login />
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          cards={cards}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-        />
+        <Switch>
+          <ProtectedRoute path="/" exact
+            loggedIn={loggedIn}
+            component={Main}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            cards={cards}
+            onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete} />
+          <Route path="/sign-up">
+            <Register />
+          </Route>
+          <Route path="/sign-in">
+            <Login />
+          </Route>
+          <Route>
+            {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+          </Route>
+        </Switch>
         <Footer />
         <ImagePopup
           card={selectedCard}
@@ -157,6 +173,7 @@ function App() {
           onClose={closeAllPopups}
         />
       </div>
+
     </CurrentUserContext.Provider >
   );
 }
