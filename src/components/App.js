@@ -16,6 +16,7 @@ import Login from "./Login";
 import Register from "./Register";
 import { Route, Switch, Redirect } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
+import { auth } from "../utils/auth";
 
 function App() {
 
@@ -40,6 +41,22 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
 
   const [loggedIn, setLoggedIn] = useState(true);
+
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth.validityTokenProfile(jwt)
+        .then(data => {
+          if (data) {
+            console.log(jwt)
+            setLoggedIn(true)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }, []);
 
   useEffect(() => {
     Promise.all([api.getInitialCards()])

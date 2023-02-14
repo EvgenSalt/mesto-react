@@ -24,7 +24,7 @@ class Auth {
       .then((res) => this._getResponseData(res))
   }
 
-  authorizationProfile() {
+  authorizationProfile(data) {
     return (`${this._baseUrl}/signin`, {
       method: 'POST',
       headers: {
