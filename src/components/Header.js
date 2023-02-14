@@ -9,13 +9,13 @@ function Header() {
         <Switch>
           <Route path="/" exact>
             <div className="heder__mail">aa@22.ru</div>
-            <Link to='sign-in' className="heder__link">Выйти</Link>
+            <Link to='signin' className="heder__link">Выйти</Link>
           </Route>
-          <Route path="/sign-up">
-            <Link to='sign-in' className="heder__link">Войти</Link>
+          <Route path="/signup">
+            <Link to='signin' className="heder__link">Войти</Link>
           </Route>
-          <Route path="/sign-in">
-            <Link to='sign-up' className="heder__link">Регистрация</Link>
+          <Route path="/signin">
+            <Link to='signup' className="heder__link">Регистрация</Link>
           </Route>
         </Switch>
       </div>
