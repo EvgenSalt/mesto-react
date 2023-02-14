@@ -39,7 +39,7 @@ class Auth {
   }
 
   validityTokenProfile(jwt) {
-    return (`${this._baseUrl}/signin`, {
+    return (`${this._baseUrl}/users/me`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
